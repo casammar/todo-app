@@ -23,7 +23,7 @@
                 <?= h($task->status) ?>
             </td>
             <td>
-                <?= $task->user_id ?>
+                <?= $this->User->getUsername($task->user_id) ?>
             </td>
             <td>
                <?= $this->Html->link('Edit', ['action' => 'edit', $task->id]) ?>
