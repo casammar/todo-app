@@ -1,7 +1,7 @@
 <!-- File: src/Template/Tasks/index.ctp -->
 
 <h1>Tasks</h1>
-<p><?= $this->Html->link(__('Add Task'), ['action' => 'add']) ?></p>
+<p><?= $this->Html->link(__('Create Task'), ['action' => 'create']) ?></p>
 <table>
     <tr>
         <th>Name</th>

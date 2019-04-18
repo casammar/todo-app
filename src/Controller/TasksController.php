@@ -29,7 +29,7 @@ class TasksController extends AppController
         $this->set(compact('task'));
     }
 
-    public function add()
+    public function create()
     {
         $task = $this->Tasks->newEntity();
         if ($this->request->is('post')) {
