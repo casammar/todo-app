@@ -1,6 +1,12 @@
-<!-- File: src/Template/Tasks/edit.ctp -->
+<?php
+/**
+ * @var \App\View\AppView $this
+ * @var \App\Model\Entity\Task $task
+ */
+?>
 
 <h1>Edit Task</h1>
+
 <?php
     echo $this->Form->create($task);
     echo $this->Form->control('name');

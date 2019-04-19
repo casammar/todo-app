@@ -1,4 +1,9 @@
-<!-- File: src/Template/Tasks/view.ctp -->
+<?php
+/**
+ * @var \App\View\AppView $this
+ * @var \App\Model\Entity\Task $task
+ */
+?>
 
 <h1><?= h($task->name) ?></h1>
 <p><?= h($task->description) ?></p>

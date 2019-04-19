@@ -1,4 +1,9 @@
-<!-- File: src/Template/Tasks/index.ctp -->
+<?php
+/**
+ * @var \App\View\AppView $this
+ * @var \App\Model\Entity\Task $task
+ */
+?>
 
 <h1>Tasks</h1>
 <p><?= $this->Html->link(__('Create Task'), ['action' => 'create']) ?></p>

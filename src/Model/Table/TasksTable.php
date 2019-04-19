@@ -3,14 +3,19 @@
 namespace App\Model\Table;
 
 use Cake\ORM\Query;
-// the Text class
 use Cake\ORM\Table;
-// the Validator class
 use Cake\Utility\Text;
 use Cake\Validation\Validator;
 
 class TasksTable extends Table
 {
+
+  /**
+   * Initialize method
+   *
+   * @param array $config The configuration for the Table.
+   * @return void
+   */
     public function initialize(array $config)
     {
         $this->addBehavior('Timestamp');
