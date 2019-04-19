@@ -37,11 +37,15 @@ class TasksController extends AppController
 
     public function create()
     {
+        $users = array();
+        $allUsers = $this->Tasks->Users->find('all');
+        foreach ($allUsers as $key => $value) {
+            $users[] = ['text' => $value['username'], 'value' => $value['id']];
+        }
+
         $task = $this->Tasks->newEntity();
         if ($this->request->is('post')) {
             $task = $this->Tasks->patchEntity($task, $this->request->getData());
-            // Get userId of logged in user
-            $task->user_id = $this->Auth->user('id');
 
             if ($this->Tasks->save($task)) {
                 $this->Flash->success(__('Your task has been saved.'));
@@ -50,26 +54,29 @@ class TasksController extends AppController
             $this->Flash->error(__('Unable to add your task.'));
         }
 
-        $this->set(['task' => $task]);
+        $this->set(['task' => $task, 'users' => $users]);
     }
 
     public function edit($id)
     {
+        $users = array();
+        $allUsers = $this->Tasks->Users->find('all');
+        foreach ($allUsers as $key => $value) {
+            $users[] = ['text' => $value['username'], 'value' => $value['id']];
+        }
+
         $task = $this->Tasks
             ->findById($id)
             ->firstOrFail();
         if ($this->request->is(['post', 'put'])) {
-            $this->Tasks->patchEntity($task, $this->request->getData(), [
-                // Disable modification of user_id.
-                'accessibleFields' => ['user_id' => false]
-            ]);
+            $this->Tasks->patchEntity($task, $this->request->getData());
             if ($this->Tasks->save($task)) {
                 $this->Flash->success(__('Your task has been updated.'));
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('Unable to update your task.'));
         }
-        $this->set('task', $task);
+        $this->set(['task' => $task, 'users' => $users]);
     }
 
     public function delete($id)

@@ -26,8 +26,10 @@ class TasksTable extends Table
         $validator
             ->allowEmptyString('name', false)
             ->maxLength('name', 255)
-            ->allowEmptyString('body', false)
-            ->maxLength('body', 255);
+            ->allowEmptyString('description', false)
+            ->maxLength('description', 255)
+            ->allowEmptyString('status', false)
+            ->allowEmptyString('user_id', false);
 
         return $validator;
     }
