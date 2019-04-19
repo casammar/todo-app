@@ -8,6 +8,9 @@ use Cake\Http\Client;
 
 class TasksController extends AppController
 {
+    public $paginate = [
+        'limit' => 10
+    ];
 
     public function initialize()
     {
@@ -19,7 +22,10 @@ class TasksController extends AppController
 
     public function index()
     {
-        $tasks = $this->Paginator->paginate($this->Tasks->find());
+        $tasks = $this->paginate($this->Tasks->find('all', [
+            'order' => ['Tasks.modified' => 'DESC']
+        ]));
+
         $this->set(compact('tasks'));
     }
 
