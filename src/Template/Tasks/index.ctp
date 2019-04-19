@@ -6,7 +6,17 @@
 ?>
 
 <h1>Tasks</h1>
+
 <p><?= $this->Html->link(__('Create Task'), ['action' => 'create']) ?></p>
+<div class="large-3">
+    <?php 
+        echo $this->Form->create();
+        echo $this->Form->label('Filer By Task Status');
+        echo $this->Form->select('status', ['Not Started' => 'Not Started', 'In Progress' => 'In Progress', 'Completed' => 'Completed'], ['empty' => '- All -']);
+        echo $this->Form->button(__('Submit'));
+        echo $this->Form->end();
+    ?>
+</div>
 <table>
     <tr>
         <th>Name</th>
@@ -19,7 +29,7 @@
     <?php foreach ($tasks as $task): ?>
         <tr>
             <td>
-                <?= $this->Html->link($task->name, ['action' => 'view', $task->id]) ?>
+                <?= h($task->name) ?>
             </td>
             <td>
                 <?= h($task->description) ?>

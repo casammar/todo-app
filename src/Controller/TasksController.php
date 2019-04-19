@@ -49,10 +49,16 @@ class TasksController extends AppController
      */
     public function index()
     {
-        $tasks = $this->paginate($this->Tasks->find('all', [
-            'order' => ['Tasks.modified' => 'DESC']
-        ]));
+        $tasks = $this->Tasks->find('all')->order(['Tasks.modified' => 'DESC']);
 
+        if ($this->request->is(['post', 'put'])) {
+            $taskStatus = $this->request->getData();
+            if (!empty($taskStatus['status'])) {
+                $tasks->where(['Tasks.status' => $taskStatus['status']]);
+            }
+        }
+
+        $tasks = $this->paginate($tasks);
         $this->set(compact('tasks'));
     }
 
