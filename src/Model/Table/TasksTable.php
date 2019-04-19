@@ -18,7 +18,13 @@ class TasksTable extends Table
    */
     public function initialize(array $config)
     {
+        parent::initialize($config);
+
+        $this->setTable('tasks');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
         $this->addBehavior('Timestamp');
+        $this->belongsTo('Users');
     }
 
     public function beforeSave($event, $entity, $options)

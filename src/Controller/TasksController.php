@@ -69,6 +69,11 @@ class TasksController extends AppController
         $this->set(compact('task'));
     }
 
+    /**
+     * Create method
+     *
+     * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
+     */
     public function create()
     {
         $users = array();
@@ -117,6 +122,7 @@ class TasksController extends AppController
             }
             $this->Flash->error(__('Unable to update your task.'));
         }
+
         $this->set(['task' => $task, 'users' => $users]);
     }
 
