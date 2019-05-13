@@ -75,6 +75,6 @@ class AppController extends Controller
          $this->set('authUser', $this->Auth->user());
 
          // Bootstrap layout
-         $this->layout = 'bootstrap';
+         $this->viewBuilder()->setLayout('bootstrap');
      }
 }
