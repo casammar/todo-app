@@ -13,9 +13,9 @@
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
-$cakeDescription = 'CakePHP: the rapid development php framework';
+$cakeDescription = 'Chris\'s Awesome Todo App ';
 ?>
-<!DOCTYPE html>
+<?= $this->Html->docType() ?>
 <html>
 <head>
     <?= $this->Html->charset() ?>
@@ -66,7 +66,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         </div>
     </nav>
     <?= $this->Flash->render() ?>
-    <div class="container content large-8 large-offset-2 clearfix">
+    <div class="container content large-8 large-offset-2 clearfix pt-5">
         <?= $this->fetch('content') ?>
     </div>
     <footer>
