@@ -7,19 +7,21 @@
 
 <h1>Edit Task</h1>
 
-<?php
-    echo $this->Form->create($task, ['templates' => [
-      'inputContainer' => '<div class="form-group row {{required}}" form-type="{{type}}">{{content}}</div>',
-      'label' => '<label class="col-md-2 control-label" {{attrs}}>{{text}}</label>',
-      'input' => '<div class="col-md-4"><input type="{{type}}" name="{{name}}" {{attrs}} /></div>',
-      'select' => '<div class="form-control col-md-4"><select name="{{name}}"{{attrs}}>{{content}}</select></div>',
-      'error' => '<div class="error">{{content}}</div>'
-    ]]);
+<div class="task task-edit form col-lg-9">
+    <?php
+        echo $this->Form->create($task, ['templates' => [
+          'label' => '<label class="col-sm-2  control-label" {{attrs}}>{{text}}</label>',
+          'inputContainer' => '<div class="col-sm-10 form-group" form-type="{{type}}">{{content}}</div>',
+          'input' => '<input class="form-control" type="{{type}}" name="{{name}}" {{attrs}} />',
+          'select' => '<select class="form-control" name="{{name}}"{{attrs}}>{{content}}</select>',
+          'textarea' => '<textarea class="form-control" name="{{name}}"{{attrs}}>{{value}}</textarea>',
+        ]]);
 
-    echo $this->Form->input('name');
-    echo $this->Form->control('description', ['rows' => '3']);
-    echo $this->Form->label('Task Status');
-    echo $this->Form->select('status', ['Not Started' => 'Not Started', 'In Progress' => 'In Progress', 'Completed' => 'Completed']);
-    echo $this->Form->button(__('Submit'),['class'=>'btn btn-primary']);
-    echo $this->Form->end();
-?>
+        echo $this->Form->input('name');
+        echo $this->Form->control('description', ['rows' => '3']);
+        echo $this->Form->label('Task Status');
+        echo $this->Form->select('status', ['Not Started' => 'Not Started', 'In Progress' => 'In Progress', 'Completed' => 'Completed']);
+        echo $this->Form->button(__('Submit'),['class'=>'btn btn-primary my-4']);
+        echo $this->Form->end();
+    ?>
+</div>
