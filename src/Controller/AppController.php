@@ -16,6 +16,7 @@ namespace App\Controller;
 
 use Cake\Controller\Controller;
 use Cake\Event\Event;
+use Cake\Core\Configure;
 
 /**
  * Application Controller
@@ -73,5 +74,11 @@ class AppController extends Controller
 
          // Set user
          $this->set('authUser', $this->Auth->user());
+
+         // Custom bootstrap forms
+         $this->set('form_templates', Configure::read('bootstrapFormTemplate'));
+
+         // Bootstrap layout
+         $this->viewBuilder()->setLayout('bootstrap');
      }
 }

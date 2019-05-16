@@ -25,6 +25,14 @@ use App\Controller\AppController;
  */
 class UsersController extends AppController
 {
+    public $paginate = [
+        'limit' => 5,
+        'order' => [
+            'Users.modified' => 'ASC'
+        ]
+    ];
+
+
     public function initialize()
     {
         parent::initialize();
@@ -56,6 +64,8 @@ class UsersController extends AppController
      */
     public function index()
     {
+        $this->set('title', 'Users');
+
         $users = $this->paginate($this->Users);
 
         $this->set(compact('users'));
@@ -76,11 +86,11 @@ class UsersController extends AppController
     }
 
     /**
-     * Add method
+     * Create method
      *
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
-    public function add()
+    public function create()
     {
         $user = $this->Users->newEntity();
         if ($this->request->is('post')) {

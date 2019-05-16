@@ -5,59 +5,74 @@
  */
 ?>
 
-<h1>Tasks</h1>
-
-<p><?= $this->Html->link(__('Create Task'), ['action' => 'create']) ?></p>
-<div class="large-3">
-    <?php 
+<div class="container">
+  <div class="row">
+    <h1><?= $title ?></h1>
+  </div>
+  <div class="row">
+    <div class="col-8">
+      <p>
+        <?= $this->Html->link(__('Create Task'), ['controller' => 'Tasks', 'action' => 'create'], ['class' => 'btn btn-success']) ?>
+      </p>
+    </div>
+    <div class="col-4">
+      <?php
         echo $this->Form->create();
         echo $this->Form->label('Filer By Task Status');
-        echo $this->Form->select('status', ['Not Started' => 'Not Started', 'In Progress' => 'In Progress', 'Completed' => 'Completed'], ['empty' => '- All -']);
-        echo $this->Form->button(__('Submit'));
+        echo $this->Form->select('status', ['Not Started' => 'Not Started', 'In Progress' => 'In Progress', 'Completed' => 'Completed'], ['empty' => '- All -'], ['class'=>'form-inline']);
+        echo $this->Form->button(__('Submit'),['class'=>'btn btn-primary']);
         echo $this->Form->end();
-    ?>
-</div>
-<table>
-    <tr>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Status</th>
-        <th>Username</th>
-        <th>Action</th>
-    </tr>
-<!-- Loop through $tasks object, print info for: name, description, status, username, edit/delete action links -->
-    <?php foreach ($tasks as $task): ?>
+      ?>
+    </div>
+  </div>
+  <div class="row">
+    <table class="table table-striped">
+      <thead>
         <tr>
-            <td>
-                <?= h($task->name) ?>
-            </td>
-            <td>
-                <?= h($task->description) ?>
-            </td>
-            <td>
-                <?= h($task->status) ?>
-            </td>
-            <td>
-                <?= $this->User->getUsername($task->user_id) ?>
-            </td>
-            <td>
-               <?= $this->Html->link('Edit', ['action' => 'edit', $task->id]) ?>
-               |
-               <?= $this->Form->postLink(
-                   'Delete',
-                   ['action' => 'delete', $task->id],
-                   ['confirm' => 'Are you sure?'])
-               ?>
-           </td>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Username</th>
+            <th>Action</th>
         </tr>
-    <?php endforeach; ?>
-</table>
-<div class="paginator">
-    <ul class="pagination">
-        <?= $this->Paginator->prev('< ' . __('previous')) ?>
-        <?= $this->Paginator->numbers() ?>
-        <?= $this->Paginator->next(__('next') . ' >') ?>
-    </ul>
-    <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
+      </thead>
+      <tbody>
+        <?php foreach ($tasks as $task): ?>
+            <tr>
+                <td>
+                    <?= $this->Html->link($task->name, ['action' => 'view', $task->id]) ?>
+                </td>
+                <td>
+                    <?= h($task->description) ?>
+                </td>
+                <td>
+                    <?= h($task->status) ?>
+                </td>
+                <td>
+                    <?= $this->User->getUsername($task->user_id) ?>
+                </td>
+                <td>
+                   <?= $this->Html->link('Edit', ['action' => 'edit', $task->id]) ?>
+                   |
+                   <?= $this->Form->postLink(
+                       'Delete',
+                       ['action' => 'delete', $task->id],
+                       ['confirm' => 'Are you sure?'])
+                   ?>
+               </td>
+            </tr>
+        <?php endforeach; ?>
+      </tbody>
+    </table>
+  </div>
+  <div class="row">
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+          <?= $this->Paginator->prev('< ' . __('previous')) ?>
+          <?= $this->Paginator->numbers() ?>
+          <?= $this->Paginator->next(__('next') . ' >') ?>
+      </ul>
+      <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
+    </nav>
+  </div>
 </div>
-        
