@@ -3,20 +3,15 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Task $task
  */
+
+$this->Form->templates($form_templates['bootstrapFormElements']);
 ?>
 
 <h1>Create Task</h1>
 
 <div class="task task-create form col-lg-9">
     <?php
-        echo $this->Form->create($task, ['templates' => [
-          'label' => '<label class="col-sm-3  control-label" {{attrs}}>{{text}}</label>',
-          'inputContainer' => '<div class="col-sm-10 form-group" form-type="{{type}}">{{content}}</div>',
-          'input' => '<input class="form-control" type="{{type}}" name="{{name}}" {{attrs}} />',
-          'select' => '<select class="form-control" name="{{name}}"{{attrs}}>{{content}}</select>',
-          'textarea' => '<textarea class="form-control" name="{{name}}"{{attrs}}>{{value}}</textarea>',
-        ]]);
-
+        echo $this->Form->create($task);
         echo $this->Form->input('name');
         echo $this->Form->control('description', ['rows' => '3']);
         echo $this->Form->label('Task Status');
