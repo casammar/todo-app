@@ -49,6 +49,7 @@ class TasksController extends AppController
      */
     public function index()
     {
+        $this->set('title', 'Tasks');
         $tasks = $this->Tasks->find('all')->order(['Tasks.modified' => 'DESC']);
 
         if ($this->request->is(['post', 'put'])) {
@@ -153,6 +154,32 @@ class TasksController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    /**
+     * Search method
+     * @param  string|null $query search text
+     * @return \Cake\Http\RequestHandler|json
+     */
+    public function search()
+    {
+        $this->request->allowMethod('ajax');
+
+        $query = $this->request->getQuery('query');
+
+        $search_results = $this->Tasks->find('all', [
+            'conditions' =>  [
+                 'OR' => [
+                     ['Tasks.name LIKE' => "%".$query."%"],
+                     ['Tasks.description LIKE' => "%".$query."%"],
+                 ]
+            ]
+        ]);
+
+        $this->set('tasks', $this->paginate($search_results));
+        $this->set('_serialize', ['tasks']);
+        $this->layout = 'ajax';
+        $this->render('/Element/search');
     }
 
 }
