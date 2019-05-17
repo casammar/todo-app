@@ -15,61 +15,17 @@
 
 $cakeDescription = 'Chris\'s Awesome Todo App ';
 ?>
-<?= $this->Html->docType() ?>
+<?php echo $this->Html->docType(); ?>
 <html>
 <head>
-    <?= $this->Html->charset() ?>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
-        <?= $cakeDescription ?>:
-        <?= $this->fetch('title') ?>
-    </title>
-    <?= $this->Html->meta('icon') ?>
-    <!-- STYLES -->
-    <?= $this->Html->css('bootstrap') ?>
-    <!-- SCRIPTS -->
-    <?= $this->Html->script('jquery') ?>
-    <?= $this->Html->script('bootstrap.bundle') ?>
-
-    <?= $this->fetch('meta') ?>
-    <?= $this->fetch('css') ?>
-    <?= $this->fetch('script') ?>
+    <?php echo $this->element('head', array('cakeDescription' => $cakeDescription)); ?>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <a class="navbar-brand" href="<?php echo $this->Url->build('/', true); ?>">TODO App</a>
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="<?php echo $this->Url->build('/tasks', true); ?>">Tasks</a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="<?php echo $this->Url->build('/users', true); ?>">Users</a>
-                    </li>
-                </ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
-                <?php if (!$authUser) { ?>
-                  <!-- <li><?= $this->Html->link('' . __('Sign Up'), ['controller' => 'Users', 'action' => 'add'], ['escape' => false]) ?></li> -->
-                  <li><?= $this->Html->link('' . __('Login'), ['controller' => 'Users', 'action' => 'login'], ['escape' => false]) ?></li>
-                <?php } else { ?>
-                  <li><a href="#">Hi, <?= $authUser['username']?></a></li>
-                  <li><?= $this->Html->link('' . __('Logout'), ['controller' => 'Users', 'action' => 'logout'], ['escape' => false]) ?></li>
-                <?php } ?>
-            </div>
-        </div>
-    </nav>
-    <?= $this->Flash->render() ?>
+    <?php echo $this->element('header', array('authUser' => $authUser)); ?>
+    <?php echo $this->Flash->render(); ?>
     <div class="container content large-8 large-offset-2 clearfix pt-5">
-        <?= $this->fetch('content') ?>
+        <?php echo $this->fetch('content'); ?>
     </div>
-    <footer>
-    </footer>
+    <?php echo $this->element('footer'); ?>
 </body>
 </html>

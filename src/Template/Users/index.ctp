@@ -7,12 +7,12 @@
 
 <div class="container">
   <div class="row">
-    <h1><?= $title ?></h1>
+    <h1><?php echo $title; ?></h1>
   </div>
   <div class="row">
     <div class="col-8">
       <p>
-        <?= $this->Html->link(__('Create User'), ['controller' => 'Users', 'action' => 'create'], ['class' => 'btn btn-success']) ?>
+        <?php echo $this->Html->link(__('Create User'), ['controller' => 'Users', 'action' => 'create'], ['class' => 'btn btn-success']); ?>
       </p>
     </div>
   </div>
@@ -20,9 +20,9 @@
     <table class="table table-striped">
       <thead>
         <tr>
-            <th><?= $this->Paginator->sort('id') ?></th>
-            <th><?= $this->Paginator->sort('username') ?></th>
-            <th><?= $this->Paginator->sort('created') ?></th>
+            <th><?php echo $this->Paginator->sort('id'); ?></th>
+            <th><?php echo $this->Paginator->sort('username'); ?></th>
+            <th><?php echo $this->Paginator->sort('created'); ?></th>
             <th>&nbsp;</th>
         </tr>
       </thead>
@@ -30,21 +30,21 @@
         <?php foreach ($users as $user): ?>
             <tr>
                 <td>
-                    <?= $user->id ?>
+                    <?php echo $user->id; ?>
                 </td>
                 <td>
-                    <?= $this->Html->link($user->username, ['action' => 'view', $user->id]) ?>
+                    <?php echo $this->Html->link($user->username, ['action' => 'view', $user->id]); ?>
                 </td>
                 <td>
-                    <?= h($user->created) ?>
+                    <?php echo h($user->created); ?>
                 </td>
                 <td>
-                   <?= $this->Html->link('Edit', ['action' => 'edit', $user->id]) ?>
+                   <?php echo $this->Html->link('Edit', ['action' => 'edit', $user->id]); ?>
                    |
-                   <?= $this->Form->postLink(
+                   <?php echo $this->Form->postLink(
                        'Delete',
                        ['action' => 'delete', $user->id],
-                       ['confirm' => 'Are you sure?'])
+                       ['confirm' => 'Are you sure?']);
                    ?>
                </td>
             </tr>
@@ -55,11 +55,11 @@
   <div class="row">
     <nav aria-label="Page navigation example">
       <ul class="pagination">
-          <?= $this->Paginator->prev('< ' . __('previous')) ?>
-          <?= $this->Paginator->numbers() ?>
-          <?= $this->Paginator->next(__('next') . ' >') ?>
+          <?php echo $this->Paginator->prev('< ' . __('previous')); ?>
+          <?php echo $this->Paginator->numbers(); ?>
+          <?php echo $this->Paginator->next(__('next') . ' >'); ?>
       </ul>
-      <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
+      <p><?php echo $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]); ?></p>
     </nav>
   </div>
 </div>
