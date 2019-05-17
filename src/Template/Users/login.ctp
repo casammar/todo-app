@@ -7,18 +7,18 @@
 
 <div class="row justify-content-center align-items-center h-100">
     <div class="user-login form col-lg-6">
-        <?= $this->Form->create() ?>
+        <?php echo $this->Form->create(); ?>
         <fieldset>
-            <legend><?= __('Login') ?></legend>
+            <legend><?php echo __('Login') ?></legend>
             <?php
                 echo $this->Form->control('username', ['class'=>'form-control mb-4']);
                 echo $this->Form->control('password', ['class'=>'form-control mb-4']);
             ?>
         </fieldset>
-        <?= $this->Form->button(__('Login'),['class'=>'btn btn-info btn-block my-4'] ) ?>
-        <?= $this->Form->end() ?>
+        <?php echo $this->Form->button(__('Login'),['class'=>'btn btn-info btn-block my-4']); ?>
+        <?php echo $this->Form->end(); ?>
         <p>Not a member?
-          <?= $this->Html->link('' . __('Sign Up'), ['controller' => 'Users', 'action' => 'add'], ['escape' => false]) ?>
+          <?php echo $this->Html->link('' . __('Sign Up'), ['controller' => 'Users', 'action' => 'add'], ['escape' => false]); ?>
             <a href="">Sign Up</a>
         </p>
     </div>
