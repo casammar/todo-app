@@ -10,19 +10,18 @@
     <h1><?php echo $title; ?></h1>
   </div>
   <div class="row">
-    <div class="col-8">
+    <div class="col">
       <p>
         <?php echo $this->Html->link(__('Create Task'), ['controller' => 'Tasks', 'action' => 'create'], ['class' => 'btn btn-success']); ?>
       </p>
     </div>
-    <div class="col-4">
-      <?php
-        echo $this->Form->create();
-        echo $this->Form->label('Filer By Task Status');
-        echo $this->Form->select('status', ['Not Started' => 'Not Started', 'In Progress' => 'In Progress', 'Completed' => 'Completed'], ['empty' => '- All -'], ['class'=>'form-inline']);
-        echo $this->Form->button(__('Submit'),['class'=>'btn btn-primary']);
-        echo $this->Form->end();
-      ?>
+    <div class="col">
+      <div class="btn-group" role="group" aria-label="Basic example">
+        <button type="button" class="btn btn-primary">All <span class="badge">27</span></button>
+        <button type="button" class="btn btn-danger">Not Started <span class="badge">6</span></button>
+        <button type="button" class="btn btn-warning">In Progress <span class="badge">12</span></button>
+        <button type="button" class="btn btn-success">Completed <span class="badge">9</span></button>
+      </div>
     </div>
   </div>
   <div class="row">
