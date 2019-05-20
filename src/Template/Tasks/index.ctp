@@ -16,17 +16,19 @@
             </p>
         </div>
         <div class="col">
-            <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-primary">All <span class="badge">27</span></button>
-                <button type="button" class="btn btn-danger">Not Started <span class="badge">6</span></button>
-                <button type="button" class="btn btn-warning">In Progress <span class="badge">12</span></button>
-                <button type="button" class="btn btn-success">Completed <span class="badge">9</span></button>
+            <div class="btn-group" id="btnTaskStatus" role="group" aria-label="Search by task status">
+                <button type="button" class="btn btn-primary" value="all">All <span class="badge"><?php echo $taskCount['all'] ?></span></button>
+                <button type="button" class="btn btn-danger" value="not-started">Not Started <span class="badge"><?php echo $taskCount['not_started'] ?></span></button>
+                <button type="button" class="btn btn-warning" value="in-progress">In Progress <span class="badge"><?php echo $taskCount['in_progress'] ?></span></button>
+                <button type="button" class="btn btn-success" value="completed">Completed <span class="badge"><?php echo $taskCount['completed'] ?></span></button>
             </div>
         </div>
     </div>
     <div class="row">
-        <div class="input-group input-group-lg my-4">
-            <input type="text" class="form-control" name="search" aria-label="Search Tasks" placeholder="Search Tasks">
+        <div class="col">
+          <div class="input-group input-group-lg my-4">
+              <input type="text" class="form-control" name="search" aria-label="Search Tasks" placeholder="Search Tasks">
+          </div>
         </div>
     </div>
     <div class="row task-table-container">
@@ -68,8 +70,6 @@
                 <?php endforeach; ?>
             </tbody>
         </table>
-    </div>
-    <div class="row">
         <nav aria-label="Page navigation example">
             <ul class="pagination">
                 <?php echo $this->Paginator->prev('< ' . __('previous')); ?>
@@ -78,5 +78,7 @@
             </ul>
             <p><?php echo $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]); ?></p>
         </nav>
+    </div>
+    <div class="row search-results-table-container">
     </div>
 </div>

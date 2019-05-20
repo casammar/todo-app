@@ -35,4 +35,9 @@
         </tr>
     <?php endforeach; ?>
   </tbody>
+  <tfoot>
+  <tr>
+    <td colspan="5"><?php echo count($tasks); ?> Total Results</td>
+  </tr>
+</tfoot>
 </table>
