@@ -49,16 +49,11 @@ class TasksController extends AppController
      */
     public function index()
     {
+        $this->set('title', 'Tasks');
         $tasks = $this->Tasks->find('all')->order(['Tasks.modified' => 'DESC']);
-
-        if ($this->request->is(['post', 'put'])) {
-            $taskStatus = $this->request->getData();
-            if (!empty($taskStatus['status'])) {
-                $tasks->where(['Tasks.status' => $taskStatus['status']]);
-            }
-        }
-
+        $taskCount = $this->getCount();
         $tasks = $this->paginate($tasks);
+        $this->set(['taskCount' => $taskCount]);
         $this->set(compact('tasks'));
     }
 
@@ -153,6 +148,81 @@ class TasksController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    /**
+     * Search method
+     * @param  string|null $query search text
+     * @return \Cake\Http\RequestHandler|json
+     */
+    public function search($keyword = null)
+    {
+        $this->request->allowMethod('ajax');
+
+        $keyword = $this->request->getQuery('keyword');
+
+        $query = $this->Tasks->find('all', [
+            'conditions' =>  [
+                 'OR' => [
+                     ['Tasks.name LIKE' => "%".$keyword."%"],
+                     ['Tasks.description LIKE' => "%".$keyword."%"],
+                 ]
+            ]
+
+            // also search through users strings
+        ]);
+
+        $this->set('tasks', $this->paginate($query));
+        $this->set('_serialize', ['tasks']);
+        $this->layout = 'ajax';
+        $this->render('/Element/search');
+    }
+
+    /**
+     * Search Status method
+     * @param  string|null $query search text
+     * @return \Cake\Http\RequestHandler|json
+     */
+    public function searchByStatus($status = null)
+    {
+        $this->request->allowMethod('ajax');
+
+        // Get & Normalize Status
+        $status = $this->request->getQuery('status');
+        $status = str_replace ("-", " ", $status);
+        $status = ucwords($status);
+
+        if ($status === 'All') {
+          $query = $this->Tasks->find();
+        } else {
+          $query = $this->Tasks->find();
+          $query->where(['Tasks.status' => $status]);
+        }
+
+        $query->order(['modified' => 'DESC']);
+
+        $this->set('tasks', $this->paginate($query));
+        $this->set('_serialize', ['tasks']);
+        $this->layout = 'ajax';
+        $this->render('/Element/search');
+    }
+
+
+    /**
+     * getCount method find total counts for each task statuses
+     *
+     * @return \Cake\Http\Response|array
+     */
+    public function getCount()
+    {
+        $taskCount = array();
+
+        $taskCount['all'] = $this->Tasks->find('all')->count();
+        $taskCount['not_started'] = $this->Tasks->find('all')->where(['Tasks.status' => 'Not Started'])->count();
+        $taskCount['in_progress'] = $this->Tasks->find('all')->where(['Tasks.status' => 'In Progress'])->count();
+        $taskCount['completed'] = $this->Tasks->find('all')->where(['Tasks.status' => 'Completed'])->count();
+
+        return $taskCount;
     }
 
 }
