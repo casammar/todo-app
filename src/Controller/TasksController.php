@@ -40,6 +40,7 @@ class TasksController extends AppController
 
         $this->loadComponent('Paginator');
         $this->loadComponent('Flash');
+        $this->Auth->allow(['search', 'searchByStatus']);
     }
 
     /**
