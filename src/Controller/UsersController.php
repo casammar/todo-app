@@ -28,7 +28,7 @@ class UsersController extends AppController
     public $paginate = [
         'limit' => 5,
         'order' => [
-            'Users.modified' => 'ASC'
+            'Users.id' => 'DESC'
         ]
     ];
 

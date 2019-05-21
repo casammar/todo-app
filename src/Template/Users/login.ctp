@@ -18,8 +18,7 @@
         <?php echo $this->Form->button(__('Login'),['class'=>'btn btn-info btn-block my-4']); ?>
         <?php echo $this->Form->end(); ?>
         <p>Not a member?
-          <?php echo $this->Html->link('' . __('Sign Up'), ['controller' => 'Users', 'action' => 'add'], ['escape' => false]); ?>
-            <a href="">Sign Up</a>
+          <?php echo $this->Html->link('' . __('Sign Up'), ['controller' => 'Users', 'action' => 'create'], ['escape' => false]); ?>
         </p>
     </div>
 </div>

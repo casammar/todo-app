@@ -27,7 +27,7 @@
     <div class="row">
         <div class="col">
           <div class="input-group input-group-lg my-4">
-              <input type="text" class="form-control" name="search" aria-label="Search Tasks" placeholder="Search Tasks">
+              <input type="text" class="form-control" name="search" aria-label="Search Tasks" placeholder="Search Tasks" autocomplete="off">
           </div>
         </div>
     </div>

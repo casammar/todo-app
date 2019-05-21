@@ -51,7 +51,7 @@ class TasksController extends AppController
     public function index()
     {
         $this->set('title', 'Tasks');
-        $tasks = $this->Tasks->find('all')->order(['Tasks.modified' => 'DESC']);
+        $tasks = $this->Tasks->find('all');
         $taskCount = $this->getCount();
         $tasks = $this->paginate($tasks);
         $this->set(['taskCount' => $taskCount]);
