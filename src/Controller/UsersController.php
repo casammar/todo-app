@@ -76,13 +76,17 @@ class UsersController extends AppController
      *
      * @param string|null $id User id.
      * @return \Cake\Http\Response|void
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null)
     {
+        if (empty($id)) {
+            return null;
+        }
+        $userTasks = array();
+        $userTasks = $this->Users->Tasks->find();
+        $userTasks->where(['Tasks.user_id' => $id]);
         $user = $this->Users->get($id);
-
-        $this->set('user', $user);
+        $this->set(['user' => $user, 'userTasks' => $userTasks]);
     }
 
     /**
