@@ -62,7 +62,8 @@ class UsersTable extends Table
             ->scalar('username')
             ->requirePresence('username', 'create')
             ->add('username', 'length', ['rule' => ['lengthBetween', 6, 50], 'message' => __('username between 6 - 50 chars')  ])
-            ->add('username', 'valid', ['rule' => 'notBlank', 'message' => __('username cant be blank')] );
+            ->add('username', 'valid', ['rule' => 'notBlank', 'message' => __('username cant be blank')] )
+            ->add('username', 'valid', ['rule' => 'email', 'message' => __('username must be an email')] );
 
         $validator
             ->scalar('password')
