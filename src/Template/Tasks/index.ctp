@@ -11,9 +11,11 @@
     </div>
     <div class="row">
         <div class="col">
-            <p>
-                <?php echo $this->Html->link(__('Create Task'), ['controller' => 'Tasks', 'action' => 'create'], ['class' => 'btn btn-success']); ?>
-            </p>
+            <?php if ($authUser) { ?>
+              <p>
+                  <?php echo $this->Html->link(__('Create Task'), ['controller' => 'Tasks', 'action' => 'create'], ['class' => 'btn btn-success']); ?>
+              </p>
+            <?php } ?>
         </div>
         <div class="col">
             <div class="btn-group" id="btnTaskStatus" role="group" aria-label="Search by task status">
@@ -35,11 +37,11 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Description</th>
+                    <th><?php echo $this->Paginator->sort('name'); ?></th>
+                    <th><?php echo $this->Paginator->sort('description'); ?></th>
+                    <th><?php echo $this->Paginator->sort('user'); ?></th>
                     <th>Status</th>
-                    <th>Username</th>
-                    <th>Action</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -52,19 +54,21 @@
                         <?php echo h($task->description); ?>
                     </td>
                     <td>
-                        <?php echo h($task->status); ?>
-                    </td>
-                    <td>
                         <?php echo $this->User->getUsername($task->user_id); ?>
                     </td>
                     <td>
-                        <?php echo $this->Html->link('Edit', ['action' => 'edit', $task->id]); ?>
-                        |
-                        <?php echo $this->Form->postLink(
-                            'Delete',
-                            ['action' => 'delete', $task->id],
-                            ['confirm' => 'Are you sure?']);
+                        <?php echo h($task->status); ?>
+                    </td>
+                    <td>
+                        <?php if ($authUser) { ?>
+                            <?php echo $this->Html->link('Edit', ['action' => 'edit', $task->id]); ?>
+                            |
+                            <?php echo $this->Form->postLink(
+                                'Delete',
+                                ['action' => 'delete', $task->id],
+                                ['confirm' => 'Are you sure?']);
                             ?>
+                        <?php } ?>
                     </td>
                 </tr>
                 <?php endforeach; ?>

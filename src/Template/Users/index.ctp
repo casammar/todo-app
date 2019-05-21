@@ -39,13 +39,15 @@
                     <?php echo h($user->created); ?>
                 </td>
                 <td>
-                   <?php echo $this->Html->link('Edit', ['action' => 'edit', $user->id]); ?>
-                   |
-                   <?php echo $this->Form->postLink(
-                       'Delete',
-                       ['action' => 'delete', $user->id],
-                       ['confirm' => 'Are you sure?']);
-                   ?>
+                    <?php if ($authUser) { ?>
+                        <?php echo $this->Html->link('Edit', ['action' => 'edit', $user->id]); ?>
+                        |
+                        <?php echo $this->Form->postLink(
+                           'Delete',
+                           ['action' => 'delete', $user->id],
+                           ['confirm' => 'Are you sure?']);
+                        ?>
+                    <?php } ?>
                </td>
             </tr>
         <?php endforeach; ?>
