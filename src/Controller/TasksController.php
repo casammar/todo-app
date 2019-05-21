@@ -153,8 +153,9 @@ class TasksController extends AppController
 
     /**
      * Search method
-     * @param  string|null $query search text
-     * @return \Cake\Http\RequestHandler|json
+     * @param  string|null $keyword search text
+     * @return \Cake\Http\Response|void
+     *
      */
     public function search($keyword = null)
     {
@@ -169,8 +170,7 @@ class TasksController extends AppController
                      ['Tasks.description LIKE' => "%".$keyword."%"],
                  ]
             ]
-
-            // also search through users strings
+            // TODO add search through usersnames
         ]);
 
         $this->set('tasks', $this->paginate($query));
@@ -181,8 +181,8 @@ class TasksController extends AppController
 
     /**
      * Search Status method
-     * @param  string|null $query search text
-     * @return \Cake\Http\RequestHandler|json
+     * @param  string|null $status search text
+     * @return \Cake\Http\Response|void
      */
     public function searchByStatus($status = null)
     {

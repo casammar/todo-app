@@ -32,13 +32,22 @@ class UsersController extends AppController
         ]
     ];
 
-
+    /**
+     * Initialize method
+     *
+     * @return void
+     */
     public function initialize()
     {
         parent::initialize();
         $this->Auth->allow(['create', 'login', 'logout', 'search', 'searchByStatus']);
     }
 
+
+    /**
+     * Login method
+     *
+     */
     public function login()
     {
         if ($this->request->is('post')) {
@@ -51,6 +60,10 @@ class UsersController extends AppController
         }
     }
 
+    /**
+     * Logout method
+     *
+     */
     public function logout()
     {
         $this->Flash->success('You are now logged out.');
@@ -65,9 +78,7 @@ class UsersController extends AppController
     public function index()
     {
         $this->set('title', 'Users');
-
         $users = $this->paginate($this->Users);
-
         $this->set(compact('users'));
     }
 
