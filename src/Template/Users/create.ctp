@@ -10,12 +10,15 @@
       <?php echo $this->Form->create(); ?>
       <fieldset>
           <legend><?php echo __('Sign Up'); ?></legend>
+          <p>
+            <strong>Username and Password must be at least 6 characters</strong>
+          </p>
           <?php
             echo $this->Form->control('username', ['class'=>'form-control mb-4']);
             echo $this->Form->control('password', ['class'=>'form-control mb-4']);
           ?>
       </fieldset>
-      <?php echo $this->Form->button(__('Sign Up'),['class'=>'btn btn-info btn-block my-4'] ); ?>
+      <?php echo $this->Form->button(__('Sign Up'), ['class'=>'btn btn-info btn-block my-4']); ?>
       <?php echo $this->Form->end(); ?>
   </div>
 </div>

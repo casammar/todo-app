@@ -25,6 +25,9 @@ use App\Controller\AppController;
  */
 class UsersController extends AppController
 {
+    /**
+     * paginate settings
+     */
     public $paginate = [
         'limit' => 5,
         'order' => [
