@@ -14,7 +14,7 @@
             <strong>Username and Password must be at least 6 characters</strong>
           </p>
           <?php
-            echo $this->Form->control('username', ['class'=>'form-control mb-4']);
+            echo $this->Form->control('username', ['label' => 'Email Address', 'class'=>'form-control mb-4', 'type' => 'email']);
             echo $this->Form->control('password', ['class'=>'form-control mb-4']);
           ?>
       </fieldset>

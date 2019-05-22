@@ -15,6 +15,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Mailer\Email;
 
 /**
  * Users Controller
@@ -224,6 +225,38 @@ class TasksController extends AppController
         $taskCount['completed'] = $this->Tasks->find('all')->where(['Tasks.status' => 'Completed'])->count();
 
         return $taskCount;
+    }
+
+    /**
+     * Email Reminder method - send to user task owner
+     *
+     * @param  string|null $id Task id.
+     * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     *
+     */
+    public function emailReminder($id = null)
+    {
+        $task = $this->Tasks
+            ->findById($id)
+            ->firstOrFail();
+
+        $user = $this->Tasks->Users->findById($task->user_id)->firstOrFail();
+
+        $email = new Email();
+        $email->setProfile('gmail');
+        $email->viewBuilder()->setHelpers(['Html', 'Text']);
+        $email->viewBuilder()->setTemplate('todo','default');
+        $email->setEmailFormat('html');
+        $email->setViewVars(['task' => $task, 'user' => $user]);
+        $email->setFrom(['chris.sammarco@gmail.com' => 'My Site'])
+            ->setTo($user->username)
+            ->setSubject($user->username . ' your task "' . $task->name . '" is due')
+            ->send('my msg');
+
+        $this->Flash->success(__('Your email has been sent to {0}', $user->username));
+
+        return $this->redirect(['action' => 'index']);
     }
 
 }
