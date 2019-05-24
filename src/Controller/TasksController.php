@@ -26,10 +26,6 @@ use Cake\Mailer\Email;
  */
 class TasksController extends AppController
 {
-    public $paginate = [
-        'limit' => 10
-    ];
-
     /**
      * Initialize method
      *
@@ -51,6 +47,10 @@ class TasksController extends AppController
      */
     public function index()
     {
+        $this->paginate = [
+            'limit' => 10
+        ];
+
         $this->set('title', 'Tasks');
         $tasks = $this->Tasks->find('all');
         $taskCount = $this->getCount();
