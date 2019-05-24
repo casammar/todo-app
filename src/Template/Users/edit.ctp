@@ -4,7 +4,7 @@
  * @var \App\Model\Entity\User $user
  */
 
-$this->Form->templates($form_templates['bootstrapFormElements']);
+$this->Form->setTemplates($form_templates['bootstrapFormElements']);
 ?>
 
 <div class="task task-edit form col-lg-9">

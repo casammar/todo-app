@@ -4,7 +4,7 @@
  * @var \App\Model\Entity\Task $task
  */
 
-$this->Form->templates($form_templates['bootstrapFormElements']);
+$this->Form->setTemplates($form_templates['bootstrapFormElements']);
 ?>
 
 <h1>Create Task</h1>
