@@ -2,15 +2,31 @@
 namespace App\Test\TestCase\Controller;
 
 use App\Controller\UsersController;
-use Cake\TestSuite\IntegrationTestTrait;
-use Cake\TestSuite\TestCase;
+use Cake\Core\Configure;
+use Cake\Http\Exception\ForbiddenException;
+use Cake\ORM\TableRegistry;
+use Cake\TestSuite\IntegrationTestCase;
+
 
 /**
  * App\Controller\UsersController Test Case
  */
-class UsersControllerTest extends TestCase
+class UsersControllerTest extends IntegrationTestCase
 {
-    use IntegrationTestTrait;
+    /**
+     * @var string User ID
+     */
+    private $userId;
+
+    /**
+     * @var string User Name
+     */
+    private $userName;
+
+    /**
+     * @var \Cake\ORM\Table Table instance
+     */
+    private $table;
 
     /**
      * Fixtures
@@ -23,13 +39,44 @@ class UsersControllerTest extends TestCase
     ];
 
     /**
-     * Test initialize method
+     * Set up method
      *
      * @return void
      */
-    public function testInitialize()
+    public function setUp()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        parent::setUp();
+        $this->userId = '1';
+        $this->userName = 'abc@aol.com';
+        $this->table = TableRegistry::get('Users');
+    }
+
+    /**
+     * Tear down method
+     *
+     * @return void
+     */
+    public function tearDown()
+    {
+        unset($this->table);
+        unset($this->userId);
+        parent::tearDown();
+    }
+
+    /**
+     * Set a session method
+     *
+     * @return void
+     */
+    private function withSession()
+    {
+        $this->session([
+            'Auth' => [
+                'User' => $this->table->get($this->userId)->toArray(),
+            ]
+        ]);
+        //$myDebugVar = $this->table->get($this->userId)->toArray();
+        //fwrite(STDERR, print_r($myDebugVar, TRUE));
     }
 
     /**
@@ -39,7 +86,8 @@ class UsersControllerTest extends TestCase
      */
     public function testLogin()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->get('/users/login');
+        $this->assertResponseOk();
     }
 
     /**
@@ -49,7 +97,8 @@ class UsersControllerTest extends TestCase
      */
     public function testLogout()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->get('/users/logout');
+        $this->assertRedirect();
     }
 
     /**
@@ -59,7 +108,12 @@ class UsersControllerTest extends TestCase
      */
     public function testIndex()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->withSession();
+        $this->get('/users');
+        $this->assertResponseOk();
+        $this->get('/users/index');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Users');
     }
 
     /**
@@ -69,7 +123,9 @@ class UsersControllerTest extends TestCase
      */
     public function testView()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->get('/users/view/' . $this->userId);
+        $this->assertResponseOk();
+        $this->assertResponseContains($this->userName);
     }
 
     /**
@@ -79,7 +135,22 @@ class UsersControllerTest extends TestCase
      */
     public function testCreate()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->enableCsrfToken();
+        $this->enableSecurityToken();
+        $data = [
+            'username' => 'zyx@aol.com',
+            'password' => 'testtest' // needs to >= 8 characters
+        ];
+        $where = $data;
+        unset($where['password']);
+        $this->get('/users/create');
+        $this->assertResponseContains('Create a User');
+        $this->assertResponseOk();
+        $this->post('/users/create', $data);
+        $this->assertRedirect();
+        $query = $this->table->find()->where($where);
+        //fwrite(STDERR, print_r($query, TRUE));
+        $this->assertEquals(1, $query->count());
     }
 
     /**
@@ -89,7 +160,17 @@ class UsersControllerTest extends TestCase
      */
     public function testEdit()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->enableCsrfToken();
+        $this->enableSecurityToken();
+        $this->withSession();
+        $data = ['username' => $this->userName];
+        $this->get('/users/edit/' . $this->userId);
+        $this->assertResponseOk();
+        $this->assertResponseContains('Edit User');
+        $this->put('/users/edit/' . $this->userId, $data);
+        $this->assertRedirect();
+        $entity = $this->table->get($this->userId);
+        $this->assertEquals($data['username'], $entity->get('username'));
     }
 
     /**
@@ -99,6 +180,13 @@ class UsersControllerTest extends TestCase
      */
     public function testDelete()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->enableCsrfToken();
+        $this->enableSecurityToken();
+        $this->withSession();
+        $userId = '1';
+        $this->delete('/users/delete/' . $userId);
+        $this->assertRedirect();
+        $query = $this->table->find()->where(['id' => $userId]);
+        $this->assertTrue($query->isEmpty());
     }
 }
