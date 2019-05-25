@@ -28,6 +28,16 @@ use Cake\View\Exception\MissingTemplateException;
 class PagesControllerTest extends IntegrationTestCase
 {
     /**
+     * Fixtures
+     *
+     * @var array
+     */
+    public $fixtures = [
+        'app.Tasks',
+        'app.Users'
+    ];
+
+    /**
      * testMultipleGet method
      *
      * @return void
