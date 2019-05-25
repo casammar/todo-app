@@ -75,8 +75,6 @@ class UsersControllerTest extends IntegrationTestCase
                 'User' => $this->table->get($this->userId)->toArray(),
             ]
         ]);
-        //$myDebugVar = $this->table->get($this->userId)->toArray();
-        //fwrite(STDERR, print_r($myDebugVar, TRUE));
     }
 
     /**
