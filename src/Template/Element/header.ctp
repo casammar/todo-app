@@ -21,7 +21,7 @@
                 <?php } else { ?>
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Hi, <?php echo $authUser['username']; ?>
+                      Hi, <?php echo (isset($authUser['username']) ? $authUser['username'] : '');  ?>
                     </a>
                     <div class="dropdown-menu" >
                       <?php echo $this->Html->link('' . __('Logout'), ['controller' => 'Users', 'action' => 'logout'], ['class' => 'nav-link text-primary'], ['escape' => false]); ?>

@@ -68,6 +68,7 @@ class TasksController extends AppController
      */
     public function view($id = null)
     {
+        $this->set('title', 'View Task');
         $task = $this->Tasks->findById($id)->firstOrFail();
         $this->set(compact('task'));
     }
@@ -79,6 +80,7 @@ class TasksController extends AppController
      */
     public function create()
     {
+        $this->set('title', 'Create Task');
         $users = array();
         $allUsers = $this->Tasks->Users->find('all');
         foreach ($allUsers as $key => $value) {
@@ -108,6 +110,7 @@ class TasksController extends AppController
      */
     public function edit($id = null)
     {
+        $this->set('title', 'Edit Task');
         $users = array();
         $allUsers = $this->Tasks->Users->find('all');
         foreach ($allUsers as $key => $value) {
