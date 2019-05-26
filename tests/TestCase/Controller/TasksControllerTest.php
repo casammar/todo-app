@@ -2,15 +2,30 @@
 namespace App\Test\TestCase\Controller;
 
 use App\Controller\TasksController;
-use Cake\TestSuite\IntegrationTestTrait;
-use Cake\TestSuite\TestCase;
+use Cake\Core\Configure;
+use Cake\Http\Exception\ForbiddenException;
+use Cake\ORM\TableRegistry;
+use Cake\TestSuite\IntegrationTestCase;
 
 /**
  * App\Controller\TasksController Test Case
  */
-class TasksControllerTest extends TestCase
+class TasksControllerTest extends IntegrationTestCase
 {
-    use IntegrationTestTrait;
+    /**
+     * @var string Task ID
+     */
+    private $taskId;
+
+    /**
+     * @var string User ID
+     */
+    private $userId;
+
+    /**
+     * @var \Cake\ORM\Table Table instance
+     */
+    private $table;
 
     /**
      * Fixtures
@@ -23,13 +38,42 @@ class TasksControllerTest extends TestCase
     ];
 
     /**
-     * Test initialize method
+     * Set up method
      *
      * @return void
      */
-    public function testInitialize()
+    public function setUp()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        parent::setUp();
+        $this->taskId = '1';
+        $this->userId = '1';
+        $this->table = TableRegistry::get('Tasks');
+    }
+
+    /**
+     * Tear down method
+     *
+     * @return void
+     */
+    public function tearDown()
+    {
+        unset($this->table);
+        unset($this->taskId);
+        parent::tearDown();
+    }
+
+    /**
+     * Set a session method
+     *
+     * @return void
+     */
+    private function withSession()
+    {
+        $this->session([
+            'Auth' => [
+                'User' => $this->table->get($this->userId)->toArray(),
+            ]
+        ]);
     }
 
     /**
@@ -39,7 +83,11 @@ class TasksControllerTest extends TestCase
      */
     public function testIndex()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->get('/tasks');
+        $this->assertResponseOk();
+        $this->get('/tasks/index');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Tasks');
     }
 
     /**
@@ -49,7 +97,11 @@ class TasksControllerTest extends TestCase
      */
     public function testView()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $task = $this->table->get($this->taskId)->toArray();
+        $this->get('/tasks/view/' . $this->taskId);
+        $this->assertResponseOk();
+        $this->assertResponseContains($task['name']);
+        $this->assertResponseContains('View Task');
     }
 
     /**
@@ -59,7 +111,26 @@ class TasksControllerTest extends TestCase
      */
     public function testCreate()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+      $this->withSession();
+      $this->enableCsrfToken();
+      $this->enableSecurityToken();
+      $data = [
+          'user_id' => 1,
+          'name' => 'Lorem ipsum dolor sit ametttt',
+          'description' => 'Lorem ipsum dolor sit ametttt',
+          'status' => 'completed',
+          'published' => 1,
+          'created' => '2019-05-14 23:36:03',
+          'modified' => '2019-05-14 23:36:03'
+      ];
+      $where = $data;
+      $this->get('/tasks/create');
+      $this->assertResponseContains('Create Task');
+      $this->assertResponseOk();
+      $this->post('/tasks/create', $data);
+      $this->assertRedirect();
+      $query = $this->table->find()->where($where);
+      $this->assertEquals(1, $query->count());
     }
 
     /**
@@ -69,7 +140,17 @@ class TasksControllerTest extends TestCase
      */
     public function testEdit()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->enableCsrfToken();
+        $this->enableSecurityToken();
+        $this->withSession();
+        $data = ['name' => 'different task name'];
+        $this->get('/tasks/edit/' . $this->taskId);
+        $this->assertResponseOk();
+        $this->assertResponseContains('Edit Task');
+        $this->put('/tasks/edit/' . $this->taskId, $data);
+        $this->assertRedirect();
+        $entity = $this->table->get($this->taskId);
+        $this->assertEquals($data['name'], $entity->get('name'));
     }
 
     /**
@@ -79,46 +160,13 @@ class TasksControllerTest extends TestCase
      */
     public function testDelete()
     {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test search method
-     *
-     * @return void
-     */
-    public function testSearch()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test searchByStatus method
-     *
-     * @return void
-     */
-    public function testSearchByStatus()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test getCount method
-     *
-     * @return void
-     */
-    public function testGetCount()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test emailReminder method
-     *
-     * @return void
-     */
-    public function testEmailReminder()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->enableCsrfToken();
+        $this->enableSecurityToken();
+        $this->withSession();
+        $taskId = '1';
+        $this->delete('/tasks/delete/' . $taskId);
+        $this->assertRedirect();
+        $query = $this->table->find()->where(['id' => $taskId]);
+        $this->assertTrue($query->isEmpty());
     }
 }
