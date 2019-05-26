@@ -12,7 +12,7 @@ $this->Form->setTemplates($form_templates['bootstrapFormElements']);
 <div class="task task-create form col-lg-9">
     <?php
         echo $this->Form->create($task);
-        echo $this->Form->input('name');
+        echo $this->Form->control('name');
         echo $this->Form->control('description', ['rows' => '3']);
         echo $this->Form->label('Task Status');
         echo $this->Form->select('status', ['Not Started' => 'Not Started', 'In Progress' => 'In Progress', 'Completed' => 'Completed']);
