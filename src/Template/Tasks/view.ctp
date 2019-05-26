@@ -6,7 +6,7 @@
 ?>
 
 <div class="users view col-lg-9 columns content">
-    <h3>Task</h3>
+    <h1><?php echo $title; ?></h1>
     <table class="table table-bordered">
         <tr>
             <th scope="row"><?php echo __('Id'); ?></th>

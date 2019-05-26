@@ -7,7 +7,7 @@
 $this->Form->setTemplates($form_templates['bootstrapFormElements']);
 ?>
 
-<h1>Create Task</h1>
+<h1><?php echo $title; ?></h1>
 
 <div class="task task-create form col-lg-9">
     <?php

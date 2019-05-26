@@ -9,7 +9,7 @@
   <div class="user-signup form col-lg-6">
       <?php echo $this->Form->create(); ?>
       <fieldset>
-          <legend><?php echo __('Sign Up'); ?></legend>
+          <legend><?php echo $title; ?></legend>
           <p>
             <strong>Username and Password must be at least 6 characters</strong>
           </p>
