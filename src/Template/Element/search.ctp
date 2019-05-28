@@ -37,7 +37,7 @@
   </tbody>
   <tfoot>
   <tr>
-    <td colspan="5"><?php echo count($tasks); ?> Total Results</td>
+    <td colspan="5"><?php echo $taskCount; ?> Total Results</td>
   </tr>
 </tfoot>
 </table>

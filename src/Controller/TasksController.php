@@ -167,7 +167,7 @@ class TasksController extends AppController
 
         $keyword = $this->request->getQuery('keyword');
 
-        $query = $this->Tasks->find('all', [
+        $tasks = $this->Tasks->find('all', [
             'conditions' =>  [
                  'OR' => [
                      ['Tasks.name LIKE' => "%".$keyword."%"],
@@ -177,8 +177,11 @@ class TasksController extends AppController
             // TODO add search through usersnames
         ]);
 
-        $this->set('tasks', $this->paginate($query));
-        $this->set('_serialize', ['tasks']);
+        $data = [
+            'tasks' => $tasks,
+            'taskCount' => $tasks->count()
+        ];
+        $this->set($data);
         $this->layout = 'ajax';
         $this->render('/Element/search');
     }
@@ -191,23 +194,21 @@ class TasksController extends AppController
     public function searchByStatus($status = null)
     {
         $this->request->allowMethod('ajax');
-
-        // Get & Normalize Status
         $status = $this->request->getQuery('status');
         $status = str_replace ("-", " ", $status);
         $status = ucwords($status);
-
         if ($status === 'All') {
-          $query = $this->Tasks->find();
+          $tasks = $this->Tasks->find('all');
         } else {
-          $query = $this->Tasks->find();
-          $query->where(['Tasks.status' => $status]);
+          $tasks = $this->Tasks->find();
+          $tasks->where(['Tasks.status' => $status]);
         }
 
-        $query->order(['modified' => 'DESC']);
-
-        $this->set('tasks', $this->paginate($query));
-        $this->set('_serialize', ['tasks']);
+        $data = [
+            'tasks' => $tasks,
+            'taskCount' => $tasks->count()
+        ];
+        $this->set($data);
         $this->layout = 'ajax';
         $this->render('/Element/search');
     }
