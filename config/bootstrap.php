@@ -29,6 +29,7 @@ require __DIR__ . '/paths.php';
  */
 require CORE_PATH . 'config' . DS . 'bootstrap.php';
 
+use App\Event\TaskListener;
 use Cake\Cache\Cache;
 use Cake\Console\ConsoleErrorHandler;
 use Cake\Core\Configure;
@@ -37,6 +38,7 @@ use Cake\Core\Plugin;
 use Cake\Database\Type;
 use Cake\Datasource\ConnectionManager;
 use Cake\Error\ErrorHandler;
+use Cake\Event\EventManager;
 use Cake\Http\ServerRequest;
 use Cake\Log\Log;
 use Cake\Mailer\Email;
@@ -206,3 +208,9 @@ Type::build('timestamp')
  * Load the custom bootstrap form elements
  */
 Configure::load('form-templates','default'); //fixed
+
+/*
+ * Load the task event listner
+ */
+$TaskListener = new TaskListener();
+EventManager::instance()->on($TaskListener);

@@ -6,6 +6,8 @@ use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\Utility\Text;
 use Cake\Validation\Validator;
+use Cake\Event\Event;
+use Cake\Log\Log;
 
 class TasksTable extends Table
 {
@@ -27,11 +29,6 @@ class TasksTable extends Table
         $this->belongsTo('Users');
     }
 
-    public function beforeSave($event, $entity, $options)
-    {
-        // Fires before save
-    }
-
     public function validationDefault(Validator $validator)
     {
         $validator
@@ -43,5 +40,11 @@ class TasksTable extends Table
             ->allowEmptyString('user_id', false);
 
         return $validator;
+    }
+
+    public function afterSave($event, $entity, $options = array())
+    {
+        $event = new Event('Model.Task.afterSave', $entity, $options);
+        $this->getEventManager()->dispatch($event);
     }
 }
